@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Requisition Portal</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=DM+Mono:wght@400;500&display=swap"
+            rel="stylesheet">
+        <style>
+            :root {
+                --navy: #0a1628;
+                --blue: #1e4fc2;
+                --sky: #3b82f6;
+                --accent: #f59e0b;
+                --light: #f0f4ff;
+                --card: #ffffff;
+                --border: #dbe4f5;
+                --text: #1a2744;
+                --muted: #6b7fa3;
+                --success: #10b981;
+                --error: #ef4444;
+                --high: #ef4444;
+                --med: #f59e0b;
+                --low: #10b981;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            .container {
+                max-width: 1080px;
+                margin: 0 auto;
+                width: 100%;
+                padding: 0 24px;
+            }
+
+            body {
+                font-family: 'Sora', sans-serif;
+                background: var(--light);
+                color: var(--text);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* TOP NAV */
+            header {
+                background: var(--navy);
+            }
+
+            .header-wrap {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 60px;
+                width: 100%;
+            }
+
+            header .nav-logo {
+                color: #fff;
+                font-size: 18px;
+                font-weight: 700;
+                letter-spacing: 1px;
+            }
+
+            header .nav-logo span {
+                color: var(--accent);
+            }
+
+            header .nav-right {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+
+            header .nav-badge {
+                background: var(--blue);
+                color: #fff;
+                font-size: 11px;
+                padding: 4px 12px;
+                border-radius: 20px;
+                font-family: 'DM Mono', monospace;
+            }
+
+            header .avater-name {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: var(--blue);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+                color: white;
+            }
+
+            /* MAIN */
+            .main {
+                padding: 32px 0;
+                overflow-y: auto;
+            }
+
+            .page-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 28px;
+            }
+
+            .page-title {
+                font-size: 22px;
+                font-weight: 700;
+            }
+
+            .page-title span {
+                color: var(--blue);
+            }
+
+            /* USER INFO CARD */
+            .user-card {
+                background: var(--card);
+                border-radius: 14px;
+                padding: 24px;
+                margin-bottom: 24px;
+                border: 1px solid var(--border);
+                display: flex;
+                align-items: center;
+                gap: 24px;
+                box-shadow: 0 2px 12px rgba(30, 79, 194, .06);
+            }
+
+            .user-avatar {
+                width: 68px;
+                height: 72px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                font-size: 12px;
+                border-radius: 8px;
+                border: 4px solid var(--border);
+            }
+
+            .user-avatar img {
+                width: 100%;
+                height: 100%;
+                border-radius: 6px;
+            }
+
+            .user-details {
+                flex: 1;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 16px;
+            }
+
+            .user-field label {
+                font-size: 12px;
+                color: var(--muted);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                display: block;
+                margin-bottom: 4px;
+            }
+
+            .user-field .value {
+                font-size: 15px;
+                font-weight: 600;
+                color: var(--text);
+                margin-top: 8px;
+            }
+
+            .user-field .value.id {
+                font-family: 'DM Mono', monospace;
+                color: var(--blue);
+            }
+
+            /* FORM CARD */
+            .form-card {
+                background: var(--card);
+                border-radius: 14px;
+                padding: 28px;
+                border: 1px solid var(--border);
+                box-shadow: 0 2px 12px rgba(30, 79, 194, .06);
+            }
+
+            .form-top {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 20px;
+                margin-bottom: 24px;
+                padding-bottom: 24px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .field-group {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .field-group label {
+                font-size: 11px;
+                font-weight: 600;
+                color: var(--muted);
+                text-transform: uppercase;
+                letter-spacing: .8px;
+            }
+
+            .field-group input,
+            .field-group select,
+            .field-group textarea {
+                border: 1.5px solid var(--border);
+                border-radius: 8px;
+                padding: 10px 14px;
+                font-family: 'Sora', sans-serif;
+                font-size: 13px;
+                color: var(--text);
+                background: #fafcff;
+                outline: none;
+                transition: .2s;
+            }
+
+            .field-group input:focus,
+            .field-group select:focus,
+            .field-group textarea:focus {
+                border-color: var(--sky);
+                background: #fff;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, .1);
+            }
+
+            .field-group input[readonly] {
+                background: var(--light);
+                color: var(--blue);
+                font-family: 'DM Mono', monospace;
+                font-weight: 500;
+            }
+
+            /* PRIORITY */
+            .priority-group {
+                display: flex;
+                gap: 10px;
+            }
+
+            .priority-btn {
+                flex: 1;
+                padding: 9px;
+                border: 1.5px solid var(--border);
+                border-radius: 8px;
+                cursor: pointer;
+                font-family: 'Sora', sans-serif;
+                font-size: 12px;
+                font-weight: 600;
+                text-align: center;
+                transition: .2s;
+                background: #fafcff;
+            }
+
+            .priority-btn.high {
+                border-color: var(--high);
+                color: var(--high);
+            }
+
+            .priority-btn.high.active,
+            .priority-btn.high:hover {
+                background: var(--high);
+                color: #fff;
+            }
+
+            .priority-btn.medium {
+                border-color: var(--med);
+                color: var(--med);
+            }
+
+            .priority-btn.medium.active,
+            .priority-btn.medium:hover {
+                background: var(--med);
+                color: #fff;
+            }
+
+            .priority-btn.low {
+                border-color: var(--low);
+                color: var(--low);
+            }
+
+            .priority-btn.low.active,
+            .priority-btn.low:hover {
+                background: var(--low);
+                color: #fff;
+            }
+
+            /* PRODUCT TABLE */
+            .section-title {
+                font-size: 14px;
+                font-weight: 700;
+                margin-bottom: 16px;
+                color: var(--text);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .product-table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .product-table th {
+                background: var(--light);
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: .8px;
+                color: var(--muted);
+                padding: 10px 14px;
+                text-align: left;
+                font-weight: 600;
+            }
+
+            .product-table td {
+                padding: 10px 14px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .product-table tr:last-child td {
+                border-bottom: none;
+            }
+
+            .product-table select,
+            .product-table input {
+                border: 1.5px solid var(--border);
+                border-radius: 6px;
+                padding: 7px 10px;
+                font-family: 'Sora', sans-serif;
+                font-size: 12px;
+                color: var(--text);
+                width: 100%;
+                outline: none;
+                transition: .2s;
+                background: #fafcff;
+            }
+
+            .product-table select:focus,
+            .product-table input:focus {
+                border-color: var(--sky);
+                background: #fff;
+            }
+
+            .add-row-btn {
+                margin-top: 14px;
+                background: none;
+                border: 1.5px dashed var(--blue);
+                color: var(--blue);
+                padding: 8px 20px;
+                border-radius: 8px;
+                font-family: 'Sora', sans-serif;
+                font-size: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: .2s;
+            }
+
+            .add-row-btn:hover {
+                background: var(--blue);
+                color: #fff;
+            }
+
+            /* FOOTER ACTIONS */
+            .form-actions {
+                display: flex;
+                gap: 12px;
+                justify-content: flex-end;
+                margin-top: 24px;
+                padding-top: 20px;
+                border-top: 1px solid var(--border);
+            }
+
+            .btn {
+                padding: 11px 28px;
+                border-radius: 8px;
+                font-family: 'Sora', sans-serif;
+                font-size: 13px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: .2s;
+                border: none;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+            }
+
+            .btn-outline {
+                background: none;
+                border: 1.5px solid var(--border);
+                color: var(--muted);
+            }
+
+            .btn-outline:hover {
+                border-color: var(--blue);
+                color: var(--blue);
+            }
+
+            .btn-primary {
+                background: linear-gradient(135deg, var(--blue), var(--sky));
+                color: #fff;
+                box-shadow: 0 4px 14px rgba(30, 79, 194, .3);
+            }
+
+            .btn-primary:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 6px 20px rgba(30, 79, 194, .4);
+            }
+
+            .sl-badge {
+                background: var(--navy);
+                color: var(--accent);
+                font-family: 'DM Mono', monospace;
+                font-size: 13px;
+                font-weight: 500;
+                padding: 10px 14px;
+                border-radius: 8px;
+                border: 1.5px solid rgba(245, 158, 11, .3);
+            }
+
+            /* TOAST NOTIFICATION STYLES */
+            .toast-notification {
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            }
+
+            .toast {
+                background: white;
+                border-radius: 12px;
+                padding: 16px 20px;
+                margin-bottom: 12px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                min-width: 320px;
+                max-width: 400px;
+                border-left: 6px solid;
+                border-right: 6px solid;
+                animation: slideIn 0.3s ease;
+            }
+
+            .toast.success {
+                border-color: var(--success);
+            }
+
+            .toast.error {
+                border-color: var(--error);
+            }
+
+            .toast-icon {
+                font-size: 22px;
+            }
+
+            .toast-content {
+                flex: 1;
+            }
+
+            .toast-title {
+                font-weight: 700;
+                font-size: 14px;
+                margin-bottom: 4px;
+            }
+
+            .toast-message {
+                font-size: 12px;
+                color: var(--muted);
+            }
+
+            .toast-close {
+                background: none;
+                border: none;
+                font-size: 18px;
+                cursor: pointer;
+                color: var(--muted);
+                padding: 0 4px;
+            }
+
+            .toast-close:hover {
+                color: var(--text);
+            }
+
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeOut {
+                from {
+                    opacity: 1;
+                }
+
+                to {
+                    opacity: 0;
+                }
+            }
+
+            /* Basic footer styling */
+            footer {
+                background-color: #101e35;
+                color: #ffffff;
+                padding: 16px 0;
+                text-align: center;
+                width: 100%;
+                margin-top: auto;
+                border-bottom: 8px solid #091323fb;
+                border-top: 8px solid #091323fb;
+            }
+
+            a {
+                text-decoration: none;
+                font-family: inherit;
+            }
+
+            .footer-wrap p {
+                margin: 0;
+                font-size: 12px;
+                color: #ddd;
+            }
+
+            .footer-wrap p a {
+                color: gold;
+                opacity: .9;
+                font-size: 12px;
+            }
+
+            .footer-wrap p:hover {
+                color: #ffffff;
+                transition: color 0.3s ease;
+            }
+
+            .reset-btn {
+                letter-spacing: .5px;
+            }
+
+            .reset-btn:hover {
+                color: red;
+                border-color: red;
+            }
+        </style>
+    </head>
+
+    <body>
+
+
+
+        <!--==================  Portal Header Here  ====================-->
+        <header class="nav">
+            <div class="container">
+                <div class="header-wrap">
+                    <div class="nav-logo">DAILY<span> STAR</span></div>
+                    <div class="nav-right">
+                        <span class="nav-badge">REQUISITION </span>
+                        <div class="avater-name">FH</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="page">
+            <!-- MAIN CONTENT -->
+            <main class="main">
+                <div class="container">
+                    <div class="page-header">
+                        <div>
+                            <div class="page-title">New <span>Purchase Requisition</span></div>
+                        </div>
+                    </div>
+
+                    <!--==================||  User Information Here  ||====================-->
+                    <div class="user-card">
+                        <div class="user-avatar">
+                            <img src="https://lh3.googleusercontent.com/a/ACg8ocLiFW0fYS0vL3mAnqt2sQMgamQjc5RYvbjADXkbHQHgW0VXriJi=s192-c-mo"
+                                alt="user">
+                        </div>
+                        <div class="user-details">
+                            <div class="user-field"><label>Full Name</label>
+                                <div class="value">Fahim Hossain</div>
+                            </div>
+                            <div class="user-field"><label>Designation</label>
+                                <div class="value">Sr. Engineer</div>
+                            </div>
+                            <div class="user-field"><label>Department</label>
+                                <div class="value">Operations</div>
+                            </div>
+                            <div class="user-field"><label>HR ID</label>
+                                <div class="value id">HR-2024-0142</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--==================||  Main Form Here  ||====================-->
+                    <form id="requisitionForm" class="form-card">
+                        <div class="form-top">
+                            <div class="field-group">
+                                <label>SL Number</label>
+                                <div class="sl-badge">REQ-2026-00847</div>
+                            </div>
+                            <div class="field-group">
+                                <label>Date</label>
+                                <input type="date" id="reqDate" value="2026-05-05" readonly>
+                            </div>
+                            <div class="field-group">
+                                <label>Priority</label>
+                                <div class="priority-group">
+                                    <div class="priority-btn high">🔴 High</div>
+                                    <div class="priority-btn medium">🟡 Medium</div>
+                                    <div class="priority-btn low active">🟢 Low</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PRODUCT SECTION -->
+                        <div class="section-title">Products Lines</div>
+                        <table class="product-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:40px">#</th>
+                                    <th style="width:220px">Product</th>
+                                    <th style="width:200px">Product Name</th>
+                                    <th style="width:90px">Qty</th>
+                                    <th style="width:130px">Required On</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;">01
+                                    </td>
+                                    <td>
+                                        <select class="product-category">
+                                            <option value="">Select product...</option>
+                                            <option value="HP LaserJet Toner" selected>HP LaserJet Toner</option>
+                                            <option value="Wireless Keyboard">Wireless Keyboard</option>
+                                            <option value="USB-C Hub">USB-C Hub</option>
+                                            <option value="Monitor Stand">Monitor Stand</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="product-name" placeholder="Product Name"
+                                            value="HP LaserJet Toner"></td>
+                                    <td><input type="number" class="quantity" value="2" min="1"></td>
+                                    <td><input type="date" class="required-date" value="2026-05-05"></td>
+                                    <td><input type="text" class="remarks" placeholder="Additional notes..."></td>
+                                </tr>
+                                <tr>
+                                    <td style="color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;">02
+                                    </td>
+                                    <td>
+                                        <select class="product-category">
+                                            <option value="">Select product...</option>
+                                            <option value="HP LaserJet Toner">HP LaserJet Toner</option>
+                                            <option value="Wireless Keyboard" selected>Wireless Keyboard</option>
+                                            <option value="USB-C Hub">USB-C Hub</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="product-name" placeholder="Product Name"
+                                            value="Wireless Keyboard"></td>
+                                    <td><input type="number" class="quantity" value="5" min="1"></td>
+                                    <td><input type="date" class="required-date" value="2026-05-05"></td>
+                                    <td><input type="text" class="remarks" placeholder="Additional notes..."></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button type="button" class="add-row-btn">+ Add Product Row</button>
+
+                        <!--===========  Button Here  ============-->
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline reset-btn" id="resetBtn">Reset</button>
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
+                                Submit Requisition
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" style="margin-left: 8px;">
+                                    <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="white"
+                                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+
+        <!--=================|| Footer Here ||==================-->
+        <footer>
+            <div class="container">
+                <div class="footer-wrap" style="display: flex;justify-content: space-between;">
+                    <p>Short Information</p>
+                    <p>&copy; 2026 <a href="https://www.xsellencebdltd.com/">Xsellence Bangladesh Ltd</a>. All rights
+                        reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+
+
+        <!-- Toast Notification Container -->
+        <div class="toast-notification" id="toastContainer">
+            <div class="toast success">
+                <div class="toast-icon">${icon}</div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close">&times;</button>
+            </div>
+        </div>
+
+
+
+        <script>
+            // Toast Notification Function
+            function showToast(type, title, message) {
+                const container = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+
+                const icon = type === 'success' ? '✔' : '❌';
+
+                toast.innerHTML = `
+                <div class="toast-icon">${icon}</div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close">&times;</button>
+            `;
+
+                container.appendChild(toast);
+
+                const closeBtn = toast.querySelector('.toast-close');
+                closeBtn.addEventListener('click', () => {
+                    toast.style.animation = 'fadeOut 0.3s ease';
+                    setTimeout(() => toast.remove(), 300);
+                });
+
+                setTimeout(() => {
+                    if (toast.parentElement) {
+                        toast.style.animation = 'fadeOut 0.3s ease';
+                        setTimeout(() => toast.remove(), 300);
+                    }
+                }, 5000);
+            }
+
+            // Validate form before submit
+            function validateForm() {
+                const rows = document.querySelectorAll('.product-table tbody tr');
+                let hasError = false;
+                let errorMessage = '';
+
+                if (rows.length === 0) {
+                    showToast('error', 'Validation Error', 'Please add at least one product item');
+                    return false;
+                }
+
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+                    const productSelect = row.querySelector('.product-category');
+                    const productName = row.querySelector('.product-name');
+                    const quantity = row.querySelector('.quantity');
+                    const reqDate = row.querySelector('.required-date');
+
+                    if (!productSelect.value) {
+                        hasError = true;
+                        errorMessage = `Row ${i + 1}: Please select a product`;
+                        break;
+                    }
+
+                    if (!productName.value.trim()) {
+                        hasError = true;
+                        errorMessage = `Row ${i + 1}: Please enter product name`;
+                        break;
+                    }
+
+                    if (!quantity.value || quantity.value < 1) {
+                        hasError = true;
+                        errorMessage = `Row ${i + 1}: Please enter valid quantity (minimum 1)`;
+                        break;
+                    }
+
+                    if (!reqDate.value) {
+                        hasError = true;
+                        errorMessage = `Row ${i + 1}: Please select required date`;
+                        break;
+                    }
+                }
+
+                if (hasError) {
+                    showToast('error', 'Validation Failed', errorMessage);
+                    return false;
+                }
+
+                return true;
+            }
+
+            // Get selected priority
+            function getSelectedPriority() {
+                const activeBtn = document.querySelector('.priority-btn.active');
+                if (activeBtn) {
+                    return activeBtn.innerText.trim();
+                }
+                return '🟢 Low';
+            }
+
+            // Get all product data
+            function getProductData() {
+                const rows = document.querySelectorAll('.product-table tbody tr');
+                const products = [];
+
+                rows.forEach((row, index) => {
+                    products.push({
+                        sl: index + 1,
+                        product: row.querySelector('.product-category').value,
+                        productName: row.querySelector('.product-name').value,
+                        quantity: row.querySelector('.quantity').value,
+                        requiredDate: row.querySelector('.required-date').value,
+                        remarks: row.querySelector('.remarks').value || 'N/A'
+                    });
+                });
+
+                return products;
+            }
+
+            // Submit form handler
+            document.getElementById('requisitionForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                if (!validateForm()) {
+                    return;
+                }
+
+                const submitBtn = document.getElementById('submitBtn');
+                const originalText = submitBtn.innerHTML;
+
+                // Show loading state
+                submitBtn.innerHTML = 'Submitting... ⏳';
+                submitBtn.disabled = true;
+
+                // Get form data
+                const reqNumber = document.querySelector('.sl-badge').innerText;
+                const reqDate = document.getElementById('reqDate').value;
+                const priority = getSelectedPriority();
+                const userName = document.querySelector('.user-field .value').innerText;
+                const products = getProductData();
+
+                // Simulate API call (replace with actual backend call)
+                setTimeout(() => {
+                    // Success scenario
+                    showToast(
+                        'success',
+                        'Requisition Submitted! 🎉',
+                        `REQ-${reqNumber} has been successfully submitted. You will receive updates via email.`
+                    );
+
+                    // Log to console for debugging
+                    console.log('=== Requisition Submitted ===');
+                    console.log('Requisition No:', reqNumber);
+                    console.log('Date:', reqDate);
+                    console.log('Priority:', priority);
+                    console.log('Submitted By:', userName);
+                    console.log('Products:', products);
+                    console.log('Total Items:', products.length);
+                    console.log('Total Quantity:', products.reduce((sum, p) => sum + parseInt(p.quantity), 0));
+
+                    // Reset button state
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+
+                    // Optional: Reset form after success
+                    // document.getElementById('requisitionForm').reset();
+
+                }, 1500);
+            });
+
+
+            // Priority button handler
+            document.querySelectorAll('.priority-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    this.closest('.priority-group').querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Add product row handler
+            document.querySelector('.add-row-btn').addEventListener('click', function () {
+                const tbody = document.querySelector('.product-table tbody');
+                const rows = tbody.querySelectorAll('tr');
+                const n = rows.length + 1;
+                const newRow = rows[0].cloneNode(true);
+
+                // Update row number
+                newRow.querySelector('td').textContent = String(n).padStart(2, '0');
+
+                // Reset all inputs in new row
+                newRow.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+                newRow.querySelectorAll('input').forEach(input => {
+                    if (input.type === 'number') {
+                        input.value = 1;
+                    } else if (input.type !== 'date') {
+                        input.value = '';
+                    }
+                });
+
+                tbody.appendChild(newRow);
+                showToast('success', 'Row Added', `Product row ${n} has been added successfully`);
+            });
+
+            // Auto-update product name when category changes
+            document.addEventListener('change', function (e) {
+                if (e.target.classList.contains('product-category')) {
+                    const row = e.target.closest('tr');
+                    const productNameInput = row.querySelector('.product-name');
+                    if (e.target.value) {
+                        productNameInput.value = e.target.value;
+                    }
+                }
+            });
+        </script>
+    </body>
+
+</html>
