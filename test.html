@@ -426,12 +426,12 @@
                 border: 1.5px solid rgba(245, 158, 11, .3);
             }
 
-            /* TOAST NOTIFICATION STYLES */
+            /*===========  Toast Style Here  ========= */
             .toast-notification {
                 position: fixed;
                 top: 80px;
                 right: 20px;
-                z-index: 1000;
+                z-index: 12;
                 animation: slideIn 0.3s ease;
             }
 
@@ -461,6 +461,11 @@
 
             .toast-icon {
                 font-size: 22px;
+                color: var(--error);
+            }
+
+            .toast.toast.success .toast-icon {
+                color: var(--success);
             }
 
             .toast-content {
@@ -517,12 +522,12 @@
             footer {
                 background-color: #101e35;
                 color: #ffffff;
-                padding: 16px 0;
+                padding: 20px 0;
                 text-align: center;
                 width: 100%;
                 margin-top: auto;
-                border-bottom: 8px solid #091323fb;
-                border-top: 8px solid #091323fb;
+                border-bottom: 8px solid #060e1afb;
+                border-top: 8px solid #091222fb;
             }
 
             a {
@@ -547,13 +552,96 @@
                 transition: color 0.3s ease;
             }
 
-            .reset-btn {
-                letter-spacing: .5px;
-            }
 
-            .reset-btn:hover {
-                color: red;
-                border-color: red;
+            /*================|| For Mobile Responsive  ||==================*/
+            @media(max-width:767px) {
+                .container {
+                    padding: 0 16px;
+                }
+
+                .user-details {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .user-card {
+                    padding: 16px;
+                    gap: 20px;
+                }
+
+                .user-field .value {
+                    font-size: 12px;
+                }
+
+                .form-top {
+                    grid-template-columns: 1fr;
+                }
+
+                .form-card {
+                    padding: 16px;
+                }
+
+                .sl-badge {
+                    font-size: 12px;
+                }
+
+                .field-group input[readonly] {
+                    font-size: 12px;
+                }
+
+                .priority-btn {
+                    padding: 8px;
+                    font-size: 10px;
+                }
+
+                .product-table {
+                    display: block;
+                    overflow-x: auto;
+                    white-space: nowrap;
+                    -webkit-overflow-scrolling: touch;
+                }
+
+                .product-table thead {
+                    display: table-header-group;
+                }
+
+                .product-table tbody {
+                    display: table-row-group;
+                }
+
+                .product-table tr {
+                    display: table-row;
+                }
+
+                .product-table th,
+                .product-table td {
+                    display: table-cell;
+                    white-space: nowrap;
+                }
+
+                .product-table th {
+                    min-width: 60px;
+                }
+
+                .product-table select,
+                .product-table input {
+                    border: 1.5px solid var(--border);
+                    border-radius: 6px;
+                    padding: 7px 10px;
+                    font-family: 'Sora', sans-serif;
+                    font-size: 12px;
+                    color: var(--text);
+                    width: 100%;
+                    outline: none;
+                    transition: .2s;
+                    background: #fafcff;
+                    min-width: 150px;
+                }
+
+                /* Override for number input only */
+                .product-table input[type="number"] {
+                    min-width: auto;
+                    width: 40px;
+                }
             }
         </style>
     </head>
@@ -683,7 +771,6 @@
 
                         <!--===========  Button Here  ============-->
                         <div class="form-actions">
-                            <button type="button" class="btn btn-outline reset-btn" id="resetBtn">Reset</button>
                             <button type="submit" class="btn btn-primary" id="submitBtn">
                                 Submit Requisition
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -714,10 +801,10 @@
         <!-- Toast Notification Container -->
         <div class="toast-notification" id="toastContainer">
             <div class="toast success">
-                <div class="toast-icon">${icon}</div>
+                <div class="toast-icon">✔</div>
                 <div class="toast-content">
-                    <div class="toast-title">${title}</div>
-                    <div class="toast-message">${message}</div>
+                    <div class="toast-title">Task Added Successfully</div>
+                    <div class="toast-message">Thank you so much</div>
                 </div>
                 <button class="toast-close">&times;</button>
             </div>
@@ -777,15 +864,14 @@
                     const quantity = row.querySelector('.quantity');
                     const reqDate = row.querySelector('.required-date');
 
-                    if (!productSelect.value) {
+                    // validation with OR
+                    if (!productSelect.value && !productName.value.trim()) {
                         hasError = true;
-                        errorMessage = `Row ${i + 1}: Please select a product`;
-                        break;
-                    }
-
-                    if (!productName.value.trim()) {
-                        hasError = true;
-                        errorMessage = `Row ${i + 1}: Please enter product name`;
+                        if (!productSelect.value) {
+                            errorMessage = `Row ${i + 1}: Please select a product`;
+                        } else if (!productName.value.trim()) {
+                            errorMessage = `Row ${i + 1}: Please enter product name`;
+                        }
                         break;
                     }
 
@@ -809,6 +895,7 @@
 
                 return true;
             }
+
 
             // Get selected priority
             function getSelectedPriority() {
@@ -865,8 +952,8 @@
                     // Success scenario
                     showToast(
                         'success',
-                        'Requisition Submitted! 🎉',
-                        `REQ-${reqNumber} has been successfully submitted. You will receive updates via email.`
+                        'Requisition Submitted!',
+                        `REQ-${reqNumber} has been successfully submitted. Thank you`
                     );
 
                     // Log to console for debugging
@@ -878,13 +965,6 @@
                     console.log('Products:', products);
                     console.log('Total Items:', products.length);
                     console.log('Total Quantity:', products.reduce((sum, p) => sum + parseInt(p.quantity), 0));
-
-                    // Reset button state
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-
-                    // Optional: Reset form after success
-                    // document.getElementById('requisitionForm').reset();
 
                 }, 1500);
             });
