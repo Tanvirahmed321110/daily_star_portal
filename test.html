@@ -115,10 +115,35 @@
             .page-title {
                 font-size: 22px;
                 font-weight: 700;
+                position: relative;
+                display: inline-block;
+                background: linear-gradient(90deg, #1a2744, #1e4fc2, #3b82f6, #1e4fc2, #1a2744);
+                background-size: 200% auto;
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                animation: shine 3s linear infinite;
             }
 
             .page-title span {
-                color: var(--blue);
+                background: linear-gradient(90deg, #1e4fc2, #f59e0b, #1e4fc2);
+                background-size: 200% auto;
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                animation: shine 3s linear infinite;
+            }
+
+
+
+            @keyframes shine {
+                0% {
+                    background-position: 0% center;
+                }
+
+                100% {
+                    background-position: 200% center;
+                }
             }
 
             /* USER INFO CARD */
@@ -127,7 +152,7 @@
                 border-radius: 14px;
                 padding: 24px;
                 margin-bottom: 24px;
-                border: 1px solid var(--border);
+                /* border: 1px solid var(--border); */
                 display: flex;
                 align-items: center;
                 gap: 24px;
@@ -185,7 +210,7 @@
                 background: var(--card);
                 border-radius: 14px;
                 padding: 28px;
-                border: 1px solid var(--border);
+                 /* border: 1px solid var(--border); */
                 box-shadow: 0 2px 12px rgba(30, 79, 194, .06);
             }
 
@@ -232,6 +257,12 @@
                 border-color: var(--sky);
                 background: #fff;
                 box-shadow: 0 0 0 3px rgba(59, 130, 246, .1);
+            }
+
+             input::placeholder,
+             textarea::placeholder{
+                color: var(--muted) !important;
+                opacity: .8;
             }
 
             .field-group input[readonly] {
@@ -555,6 +586,11 @@
 
             /*================|| For Mobile Responsive  ||==================*/
             @media(max-width:767px) {
+                .page-title {
+                    font-size: 18px;
+                    font-weight: 700;
+                }
+
                 .container {
                     padding: 0 16px;
                 }
@@ -642,7 +678,35 @@
                     min-width: auto;
                     width: 40px;
                 }
+
+                footer .short-desc {
+                    display: none;
+                }
+
+                footer .copy-right {
+                    text-align: center;
+                    width: 100%;
+                }
+
+                .toast-notification {
+                    top: 68px;
+                    right: 16px;
+                }
+
+                .toast {
+                    padding: 16px 16px;
+                    margin-bottom: 12px;
+                    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    min-width: 320px;
+                    max-width: 320px;
+                }
             }
+
+
+
         </style>
     </head>
 
@@ -789,8 +853,9 @@
         <footer>
             <div class="container">
                 <div class="footer-wrap" style="display: flex;justify-content: space-between;">
-                    <p>Short Information</p>
-                    <p>&copy; 2026 <a href="https://www.xsellencebdltd.com/">Xsellence Bangladesh Ltd</a>. All rights
+                    <p class="short-desc">Short Information</p>
+                    <p class="copy-right">&copy; 2026 <a href="https://www.xsellencebdltd.com/">Xsellence Bangladesh
+                            Ltd</a>. All rights
                         reserved.</p>
                 </div>
             </div>
@@ -966,7 +1031,13 @@
                     console.log('Total Items:', products.length);
                     console.log('Total Quantity:', products.reduce((sum, p) => sum + parseInt(p.quantity), 0));
 
+
+
+                // Reset button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
                 }, 1500);
+
             });
 
 
