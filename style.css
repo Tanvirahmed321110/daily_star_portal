@@ -1,5 +1,6 @@
 :root {
     /* --color-secondary:#131313; */
+    --text-primary:#131313;
     --navy: #040D33;
     --blue: #040D33;
     --sky: #091755d6;
@@ -7,7 +8,7 @@
     --light: #f0f4ff;
     --card: #ffffff;
     --border: #dbe4f5;
-    --text: #1a2744;
+    --text: #131313;
     --muted: #6b7fa3;
     --success: #10b981;
     --error: #ef4444;
