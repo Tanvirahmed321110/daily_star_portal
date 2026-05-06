@@ -1,7 +1,9 @@
 :root {
-    --navy: #0a1628;
-    --blue: #1e4fc2;
-    --sky: #3b82f6;
+    --color-secondary:#131313;
+    --navy: #0b0b60;
+    --navy: #040d33;
+    --blue: #131313;
+    --sky: #434343;
     --accent: #f59e0b;
     --light: #f0f4ff;
     --card: #ffffff;
@@ -93,7 +95,7 @@ header .nav-right {
 }
 
 header .nav-badge {
-    background: var(--blue);
+    background: var(--sky);
     color: #fff;
     font-size: 11px;
     padding: 4px 12px;
@@ -105,7 +107,7 @@ header .avater-name {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: var(--blue);
+    background: var(--sky);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -597,7 +599,7 @@ textarea::placeholder {
 
 /* Basic footer styling */
 footer {
-    background-color: #101e35;
+    background-color: var(--navy);
     color: #ffffff;
     padding: 20px 0;
     text-align: center;
