@@ -1,9 +1,8 @@
 :root {
-    --color-secondary:#131313;
-    --navy: #0b0b60;
-    --navy: #040d33;
-    --blue: #131313;
-    --sky: #434343;
+    /* --color-secondary:#131313; */
+    --navy: #040D33;
+    --blue: #040D33;
+    --sky: #091755d6;
     --accent: #f59e0b;
     --light: #f0f4ff;
     --card: #ffffff;
@@ -59,21 +58,22 @@ body::-webkit-scrollbar-thumb:hover {
     background: var(--navy);
 }
 
-/* TOP NAV */
-header {
-    background: var(--navy);
-}
 
 header {
-    border-bottom: 10px solid white;
+    /* border-bottom: 10px solid white; */
     box-shadow: 0 2px 12px rgba(30, 79, 194, .06);
+    background-color: white;
+}
+
+header .logo img{
+    width: 166px;
 }
 
 .header-wrap {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 60px;
+    height: 66px;
     width: 100%;
 }
 
@@ -95,19 +95,20 @@ header .nav-right {
 }
 
 header .nav-badge {
-    background: var(--sky);
-    color: #fff;
+    background: var(--border);
+    color: var(--navy);
     font-size: 11px;
     padding: 4px 12px;
     border-radius: 20px;
     font-family: 'DM Mono', monospace;
+    font-weight: 500;
 }
 
 header .avater-name {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: var(--sky);
+    background: var(--navy);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -135,7 +136,7 @@ header .avater-name {
     font-weight: 700;
     position: relative;
     display: inline-block;
-    background: linear-gradient(90deg, #1a2744, #1e4fc2, #3b82f6, #1e4fc2, #1a2744);
+    background: linear-gradient(90deg, #1a2744, #030924, #051149, #1e4fc2, #1a2744);
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -461,6 +462,7 @@ textarea::placeholder {
 
 .btn-primary {
     background: linear-gradient(135deg, var(--blue), var(--sky));
+    /* background: var(--navy); */
     color: #fff;
     box-shadow: 0 4px 14px rgba(30, 79, 194, .3);
 }
