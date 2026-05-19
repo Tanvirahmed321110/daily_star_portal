@@ -542,7 +542,6 @@ textarea::placeholder {
 
 .btn-primary {
     background: linear-gradient(135deg, var(--blue), var(--sky));
-    /* background: var(--navy); */
     color: #fff;
     box-shadow: 0 4px 14px rgba(30, 79, 194, .3);
 }
@@ -558,7 +557,6 @@ textarea::placeholder {
 }
 
 .btn-primary svg {
-    /* transform: rotate(40deg); */
     transition: 2.1s ease;
 }
 
@@ -575,6 +573,7 @@ textarea::placeholder {
         transform: translateX(0) rotate(40deg);
     }
 }
+
 
 .sl-badge {
     /* background: var(--navy); */
@@ -729,12 +728,38 @@ a {
 
 .new-req-btn svg {
     transition: all .35s ease;
-    animation: unset !important;
+    animation: rotateIcon 2.4s linear infinite;
+}
+.btn-primary.new-req-btn:hover svg{animation: unset;}
+
+
+
+
+
+@keyframes rotateIcon {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(360deg) scale(1.15);
+    }
+
+    51% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    100% {
+        transform: rotate(0deg) scale(1);
+    }
 }
 
-/* Hover Animation */
-.new-req-btn:hover svg {
-    transform: rotate(180deg) scale(1.15);
+.new-req-btn.priority-btn:hover svg {
+    rotate: unset;
+}
+
+.priority-btn.new-req-btn:hover svg {
+    animation: unset !important;
 }
 
 /*=================||  Summary Card Here  ||================*/
@@ -986,7 +1011,6 @@ a {
 /*================||   History Table Here   ||===============*/
 .table-card {
     background: var(--card);
-    /* border: 1px solid var(--navy); */
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 2px 16px rgba(4, 13, 51, 0.06);
@@ -1036,7 +1060,7 @@ a {
 .table-header-row {
     align-items: center;
     padding: 0 20px;
-    background-color: var(--navy);
+    background: linear-gradient(90deg, rgb(26, 47, 130) 0%, rgba(12, 19, 54, 0.875) 54%, rgb(27, 48, 132) 83%);
     border-bottom: 1px solid var(--border);
     border: 1px solid var(--border);
 }
@@ -1116,6 +1140,8 @@ tbody .table-row:hover {
     /* font-family: 'DM Mono', monospace; */
     background: #fef2f2;
     border: 1px solid var(--border);
+    color: var(--text-primary);
+    opacity: .8;
 }
 
 .table-card .req-date {
@@ -1141,8 +1167,8 @@ tbody .table-row:hover {
     gap: 5px;
     background: var(--light);
     border: 1px solid var(--border);
-    color: var(--navy);
-    padding: 6px 12px;
+    color: var(--blue);
+    padding: 8px 12px;
     border-radius: 7px;
     font-size: 12px;
     font-weight: 600;
@@ -1273,11 +1299,13 @@ tbody .table-row:hover {
 .meta-card .user-mini-sub {
     font-size: 13px;
     color: var(--muted);
+    font-weight: 600;
 }
 
 .meta-card .user-mini-sub.team {
     font-size: 12px;
     opacity: .85;
+    font-weight: 500;
 }
 
 
@@ -1291,7 +1319,7 @@ tbody .table-row:hover {
 }
 
 .prod-table thead tr {
-    background: var(--navy);
+    background: linear-gradient(90deg, rgba(15, 30, 90, 1) 0%, rgba(12, 19, 54, 0.975) 54%, rgba(15, 30, 90, 1) 83%);
 }
 
 .prod-table tbody tr {
@@ -1299,25 +1327,25 @@ tbody .table-row:hover {
     transition: background .15s;
 }
 
-.prod-num {
+.prod-table  .prod-num {
     font-size: 12px;
     color: var(--muted);
     font-weight: 600;
 }
 
-.prod-name {
+.prod-table  .prod-name {
     font-weight: 600;
     color: var(--navy);
     font-size: 13px;
 }
 
-.prod-category {
+.prod-table  .prod-category {
     font-size: 12px;
     color: var(--muted);
     margin-top: 6px;
 }
 
-.qty-chip {
+.prod-table  .qty-chip {
     background: var(--light);
     border: 1px solid var(--border);
     border-radius: 6px;
@@ -1328,12 +1356,12 @@ tbody .table-row:hover {
     display: inline-block;
 }
 
-.date-val {
+.prod-table  .date-val {
     font-size: 12px;
     color: var(--muted);
 }
 
-.remarks-val {
+.prod-table  .remarks-val {
     font-size: 12px;
     color: var(--muted);
 }
@@ -1373,7 +1401,6 @@ tbody .table-row:hover {
     font-size: 16px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: .03em;
     color: var(--navy);
     display: flex;
     align-items: center;
@@ -1383,10 +1410,10 @@ tbody .table-row:hover {
 .details .title::before {
     content: "";
     display: block;
-    width: 3px;
-    height: 16px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
     background: var(--accent);
-    border-radius: 2px;
 }
 
 
@@ -1641,12 +1668,14 @@ tbody .table-row:hover {
         color: var(--text);
         vertical-align: middle;
     }
+
     .prod-table .prod-name {
         font-weight: 600;
         color: var(--navy);
         font-size: 13px;
         width: 150px;
     }
+
     .prod-table .remarks-val {
         width: 160px;
         display: block;
