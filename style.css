@@ -1517,7 +1517,7 @@ tbody .table-row:hover {
 
 
 
-    /* Dashboard page responsive  */
+    /*=================== Dashboard page responsive  ==================*/
     .summary-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
